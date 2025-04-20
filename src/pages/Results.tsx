@@ -1,4 +1,3 @@
-
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -81,8 +80,8 @@ const careerCategories = [
   },
 ];
 
-// Simplified scoring algorithm (would be more sophisticated in production)
-const calculateCareerMatches = (workStyle: Record<string, string>, interests: Record<string, string>, values: Record<string, string>) => {
+// Calculate career matches based on all answers (workStyle, interests, values, or fullAssessment)
+const calculateCareerMatches = (answers: Record<string, string>) => {
   // This is a simplified scoring mechanism for demonstration
   // A real implementation would have a more nuanced algorithm
   const scores: Record<string, number> = {
@@ -97,64 +96,107 @@ const calculateCareerMatches = (workStyle: Record<string, string>, interests: Re
     consulting: 0,
   };
   
-  // Sample scoring logic for Work Style answers
-  Object.entries(workStyle).forEach(([questionId, answer]) => {
-    if (questionId === "ws1") {
+  // Sample scoring logic for all answers
+  Object.entries(answers).forEach(([questionId, answer]) => {
+    // Work Style questions (q1-q10)
+    if (questionId === "q1") {
       if (answer === "A") scores.analysis += 2;
       if (answer === "B") scores.consulting += 2;
       if (answer === "C") scores.sales += 2;
     }
-    if (questionId === "ws2") {
+    if (questionId === "q2") {
       if (answer === "A") scores.operations += 2;
       if (answer === "B") scores.startup += 2;
       if (answer === "C") scores.consulting += 2;
     }
-    if (questionId === "ws3") {
+    if (questionId === "q3") {
       if (answer === "A") scores.sales += 2;
       if (answer === "B") scores.consulting += 2;
       if (answer === "C") scores.hr += 2;
     }
-    // More scoring logic would be added here
-  });
-  
-  // Sample scoring logic for Interests answers
-  Object.entries(interests).forEach(([questionId, answer]) => {
-    if (questionId === "int1") {
+    if (questionId === "q4") {
+      if (answer === "A") scores.operations += 2; 
+      if (answer === "B") scores.startup += 2;
+      if (answer === "C") scores.consulting += 2;
+    }
+    if (questionId === "q5") {
+      if (answer === "A") scores.development += 2;
+      if (answer === "B") scores.startup += 2;
+      if (answer === "C") scores.hr += 2;
+    }
+    if (questionId === "q6") {
+      if (answer === "A") scores.development += 2;
+      if (answer === "B") scores.sales += 2;
+      if (answer === "C") scores.consulting += 2;
+    }
+    if (questionId === "q7") {
+      if (answer === "A") scores.operations += 2;
+      if (answer === "B") scores.analysis += 2;
+      if (answer === "C") scores.hr += 2;
+    }
+    if (questionId === "q8") {
+      if (answer === "A") scores.analysis += 2;
+      if (answer === "B") scores.sales += 2;
+      if (answer === "C") scores.consulting += 2;
+    }
+    if (questionId === "q9") {
+      if (answer === "A") scores.operations += 2;
+      if (answer === "B") scores.consulting += 2;
+      if (answer === "C") scores.startup += 2;
+    }
+    if (questionId === "q10") {
+      if (answer === "A") scores.analysis += 2;
+      if (answer === "B") scores.marketing += 2;
+      if (answer === "C") scores.hr += 2;
+    }
+    
+    // Interest questions (q11-q30)
+    if (questionId === "q11") {
       if (answer === "A") scores.development += 2;
       if (answer === "B") scores.analysis += 2;
       if (answer === "C") scores.sales += 2;
     }
-    if (questionId === "int2") {
+    if (questionId === "q12") {
       if (answer === "A") scores.development += 2;
       if (answer === "B") scores.marketing += 2;
       if (answer === "C") scores.consulting += 2;
     }
-    if (questionId === "int3") {
+    if (questionId === "q13") {
       if (answer === "A") scores.techSales += 2;
       if (answer === "B") scores.startup += 2;
       if (answer === "C") scores.hr += 2;
     }
-    // More scoring logic would be added here
-  });
-  
-  // Sample scoring logic for Values answers
-  Object.entries(values).forEach(([questionId, answer]) => {
-    if (questionId === "val1") {
+    if (questionId === "q14") {
+      if (answer === "A") scores.consulting += 2;
+      if (answer === "B") scores.marketing += 2;
+      if (answer === "C") scores.development += 2;
+    }
+    if (questionId === "q15") {
+      if (answer === "A") scores.development += 2;
+      if (answer === "B") scores.marketing += 2;
+      if (answer === "C") scores.hr += 2;
+    }
+    
+    // Continue scoring for all other questions...
+    // This is a simplified version; a complete implementation would score all 50 questions
+    // Values questions (q31-q50)
+    if (questionId === "q31") {
       if (answer === "A") scores.hr += 2;
       if (answer === "B") scores.consulting += 2;
       if (answer === "C") scores.operations += 2;
     }
-    if (questionId === "val2") {
+    if (questionId === "q32") {
       if (answer === "A") scores.sales += 2;
       if (answer === "B") scores.development += 2;
       if (answer === "C") scores.operations += 2;
     }
-    if (questionId === "val3") {
+    if (questionId === "q33") {
       if (answer === "A") scores.development += 2;
       if (answer === "B") scores.operations += 2;
       if (answer === "C") scores.hr += 2;
     }
-    // More scoring logic would be added here
+    
+    // Add more scoring logic for additional questions as needed
   });
   
   // Sort categories by score and return top matches
@@ -170,11 +212,26 @@ const Results = () => {
   
   useEffect(() => {
     if (assessmentContext) {
-      const { workStyle, interests, values } = assessmentContext;
+      const { workStyle, interests, values, fullAssessment, currentSection } = assessmentContext;
       
-      // Calculate matches only if there are answers in all sections
-      if (Object.keys(workStyle).length && Object.keys(interests).length && Object.keys(values).length) {
-        const matches = calculateCareerMatches(workStyle, interests, values);
+      // If full assessment has answers, use that
+      if (Object.keys(fullAssessment).length > 0) {
+        const matches = calculateCareerMatches(fullAssessment);
+        setTopMatches(matches);
+      }
+      // Otherwise, fall back to the original 3-section method
+      else if (
+        Object.keys(workStyle).length && 
+        Object.keys(interests).length && 
+        Object.keys(values).length
+      ) {
+        // Combine all answers from the three sections
+        const allAnswers = {
+          ...workStyle,
+          ...interests,
+          ...values
+        };
+        const matches = calculateCareerMatches(allAnswers);
         setTopMatches(matches);
       }
     }
@@ -254,7 +311,7 @@ const Results = () => {
               It looks like you haven't completed the assessment yet.
             </p>
             <Button asChild>
-              <Link to="/">Start the Assessment</Link>
+              <Link to="/assessment/full">Start the Assessment</Link>
             </Button>
           </div>
         )}

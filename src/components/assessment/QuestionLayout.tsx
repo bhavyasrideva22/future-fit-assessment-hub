@@ -25,7 +25,7 @@ const QuestionLayout = ({
   onSelectAnswer 
 }: QuestionLayoutProps) => {
   return (
-    <div>
+    <div className="space-y-6">
       <h2 className="text-2xl font-semibold mb-6">{question.question}</h2>
       
       <RadioGroup
@@ -34,7 +34,12 @@ const QuestionLayout = ({
         className="space-y-4"
       >
         {question.options.map((option) => (
-          <div key={option.id} className="flex items-start space-x-3 rounded-lg border p-4 transition-colors hover:bg-muted/50">
+          <div 
+            key={option.id} 
+            className={`flex items-start space-x-3 rounded-lg border p-4 transition-colors hover:bg-muted/50 ${
+              selectedAnswer === option.id ? 'border-primary bg-primary/5' : ''
+            }`}
+          >
             <RadioGroupItem 
               value={option.id} 
               id={`${question.id}-${option.id}`} 

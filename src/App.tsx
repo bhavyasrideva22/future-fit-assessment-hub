@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import AssessmentWorkStyle from "./pages/assessment/WorkStyle";
 import AssessmentInterests from "./pages/assessment/Interests";
 import AssessmentValues from "./pages/assessment/Values";
+import FullAssessment from "./pages/assessment/FullAssessment";
 import Results from "./pages/Results";
 import AdminDashboard from "./pages/AdminDashboard";
 
@@ -19,6 +21,7 @@ export interface AssessmentState {
   workStyle: Record<string, string>;
   interests: Record<string, string>;
   values: Record<string, string>;
+  fullAssessment: Record<string, string>;
   setAnswers: (section: string, questionId: string, answer: string) => void;
   currentSection: string;
   setCurrentSection: (section: string) => void;
@@ -33,6 +36,7 @@ const App = () => {
   const [workStyle, setWorkStyle] = useState<Record<string, string>>({});
   const [interests, setInterests] = useState<Record<string, string>>({});
   const [values, setValues] = useState<Record<string, string>>({});
+  const [fullAssessment, setFullAssessment] = useState<Record<string, string>>({});
   const [currentSection, setCurrentSection] = useState<string>("");
 
   // Function to update answers
@@ -47,6 +51,9 @@ const App = () => {
       case "values":
         setValues((prev) => ({ ...prev, [questionId]: answer }));
         break;
+      case "fullAssessment":
+        setFullAssessment((prev) => ({ ...prev, [questionId]: answer }));
+        break;
     }
   };
 
@@ -57,6 +64,7 @@ const App = () => {
           workStyle,
           interests,
           values,
+          fullAssessment,
           setAnswers,
           currentSection,
           setCurrentSection,
@@ -71,6 +79,7 @@ const App = () => {
               <Route path="/assessment/work-style" element={<AssessmentWorkStyle />} />
               <Route path="/assessment/interests" element={<AssessmentInterests />} />
               <Route path="/assessment/values" element={<AssessmentValues />} />
+              <Route path="/assessment/full" element={<FullAssessment />} />
               <Route path="/results" element={<Results />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="*" element={<NotFound />} />
