@@ -347,13 +347,17 @@ const Results = () => {
                 <Download className="mr-2 h-4 w-4" />
                 Download PDF Report
               </Button>
-              <Button onClick={handleShare}>
-                <Share className="mr-2 h-4 w-4" />
-                Share Results
+              <Button asChild>
+                <Link to="/share-results">
+                  <Share className="mr-2 h-4 w-4" />
+                  Share Results
+                </Link>
               </Button>
-              <Button variant="secondary">
-                <BookOpen className="mr-2 h-4 w-4" />
-                Explore Resources
+              <Button variant="secondary" asChild>
+                <Link to="/explore-resources">
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Explore Resources
+                </Link>
               </Button>
             </div>
           </div>

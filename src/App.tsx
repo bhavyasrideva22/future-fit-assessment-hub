@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,6 +14,8 @@ import AssessmentValues from "./pages/assessment/Values";
 import FullAssessment from "./pages/assessment/FullAssessment";
 import Results from "./pages/Results";
 import AdminDashboard from "./pages/AdminDashboard";
+import ExploreResources from "./pages/ExploreResources";
+import ShareResults from "./pages/ShareResults";
 
 // Assessment Context for state management
 export interface AssessmentState {
@@ -81,6 +82,8 @@ const App = () => {
               <Route path="/assessment/values" element={<AssessmentValues />} />
               <Route path="/assessment/full" element={<FullAssessment />} />
               <Route path="/results" element={<Results />} />
+              <Route path="/explore-resources" element={<ExploreResources />} />
+              <Route path="/share-results" element={<ShareResults />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
